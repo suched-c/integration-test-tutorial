@@ -5,8 +5,8 @@ on:
 
 name: Build and Release Apps
 jobs:
-  build:
-    name: Build Apps
+  build_ios:
+    name: Build iOS
     runs-on: macos-latest
     steps:
       - name: Checkout repository
@@ -42,6 +42,29 @@ jobs:
         with:
           name: release-ipa
           path: build/ios/iphoneos/app.ipa
+  build_android:
+    name: Build Android
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v1
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '8'
+          distribution: 'adopt'
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          channel: 'stable'
+      - name: Install pub Dependencies
+        run: flutter pub get
+      - name: Check for any formatting issues in the code
+        run: flutter format --set-exit-if-changed .
+      - name: Statically analyze the Dart code for any errors.
+        run: flutter analyze .
+      #- name: Run Tests
+      #  run: flutter test
       - name: Build Android App
         run: flutter build apk
       - name: Upload generated apk to the artifacts.
