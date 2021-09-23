@@ -88,6 +88,13 @@ jobs:
         with:
           name: release-ipa
           path: build/ios/iphoneos/app.ipa
+      - name: Assemble XCTest
+        run: |
+          flutter build ios --release integration_test/app_test.dart
+          cd ios
+          xcodebuild -workspace Runner.xcworkspace -scheme Runner -config Flutter/Release.xcconfig -derivedDataPath "../build/ios_integ" -sdk iphoneos build-for-testing
+          cd ../build/ios_integ/Build/Products
+          zip -r "ios_tests.zip" "Release-iphoneos" "Runner_iphoneos14.5-arm64-armv7.xctestrun"
   integration_test_android:
     name: Integration Tests for Android
     needs: build_android
