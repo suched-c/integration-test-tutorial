@@ -38,14 +38,14 @@ jobs:
       - name: Grant execute permission for gradlew
         run: cd android; chmod +x gradlew
       - name: Assemble App test APK
-        run: ./gradlew app:assembleDebug -Ptarget="integration_test/app_test.dart"
+        run: cd android; ./gradlew app:assembleDebug -Ptarget="integration_test/app_test.dart"
       - name: Upload generated test apk to the artifacts.
         uses: actions/upload-artifact@v1
         with:
           name: app-debug
           path: build/app/outputs/apk/debug/app-debug.apk
       - name: Assemble Android Instrumented Unit Test
-        run: ./gradlew app:assembleAndroidTest
+        run: cd android; ./gradlew app:assembleAndroidTest
       - name: Upload generated test apk to the artifacts.
         uses: actions/upload-artifact@v1
         with:
