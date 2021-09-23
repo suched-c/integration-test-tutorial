@@ -28,13 +28,6 @@ jobs:
         run: flutter analyze .
       #- name: Run Tests
       #  run: flutter test
-      - name: Build Android App
-        run: flutter build apk
-      - name: Upload generated apk to the artifacts.
-        uses: actions/upload-artifact@v1
-        with:
-          name: release-apk
-          path: build/app/outputs/apk/release/app-release.apk
       - name: Build iOS App
         run: |
           flutter build ios --no-codesign
@@ -49,3 +42,10 @@ jobs:
         with:
           name: release-ipa
           path: build/ios/iphoneos/app.ipa
+      - name: Build Android App
+        run: flutter build apk
+      - name: Upload generated apk to the artifacts.
+        uses: actions/upload-artifact@v1
+        with:
+          name: release-apk
+          path: build/app/outputs/apk/release/app-release.apk
